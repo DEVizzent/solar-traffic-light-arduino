@@ -4,7 +4,7 @@
 #include "arduino-timer.h"
 class TrafficLight {
 public:
-  TrafficLight(int green, int yellow, int red, Timer<> timer);
+  TrafficLight(int green, int yellow, int red);
   void green();
   void yellow();
   void red();
@@ -14,7 +14,6 @@ public:
   int yellowPin();
   int redPin();
 private:
-  Timer<> _timer;
   int _green;
   int _yellow;
   int _red;

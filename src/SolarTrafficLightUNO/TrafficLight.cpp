@@ -1,27 +1,23 @@
 #include "TrafficLight.h"
 
-TrafficLight::TrafficLight(int green, int yellow, int red, Timer<> timer) {
+TrafficLight::TrafficLight(int green, int yellow, int red) {
   _green = green;
   _yellow = yellow;
   _red = red;
-  _timer = timer;
   pinMode(_green, OUTPUT);
   pinMode(_yellow, OUTPUT);
   pinMode(_red, OUTPUT); 
 }
 
 void TrafficLight::green() {
-  _timer.cancel();
   _high(_green);
 }
 
 void TrafficLight::yellow() {
-  _timer.cancel();
   _high(_yellow);
 }
 
 void TrafficLight::red() {
-  _timer.cancel();
   _high(_red);
 }
 
@@ -38,7 +34,6 @@ int TrafficLight::redPin() {
 }
 
 void TrafficLight::off() {
-  _timer.cancel();
   _high(0);
 }
 

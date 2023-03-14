@@ -16,9 +16,7 @@ void EventListener::listen() {
         rc = Serial.read();
 
         if (recvInProgress == true) {
-                Serial.println(rc);
             if (rc != END_EVENT_MARK) {
-                Serial.println(rc);
                 receivedChars[ndx] = rc;
                 ndx++;
                 if (ndx >= numChars) {
@@ -28,11 +26,11 @@ void EventListener::listen() {
             else {
                 receivedChars[ndx] = rc + '\0'; // terminate the string
                 recvInProgress = false;
-                ndx = 0;
+                ndx = 1;
                 newEvent = true;
             }
         }
-        else if (rc == START_EVENT_MARK) { 
+        else if (rc == START_EVENT_MARK) {
             receivedChars[0] = rc;
             recvInProgress = true;
         }
@@ -44,12 +42,17 @@ bool EventListener::hasEvent() {
 }
 
 JSONVar EventListener::readEvent() {
-  char * castedReceivedChars = (char*)receivedChars;
-    Serial.println(castedReceivedChars);
-  JSONVar event = JSON.parse(castedReceivedChars);
+  newEvent = false;
+  JSONVar event = JSON.parse(receivedChars);
+  cleanReceivedChars();
   if (JSON.typeof(event) == "undefined") {
     return;
   }
-  Serial.println("Json formatted");
   return event;
+}
+
+void EventListener::cleanReceivedChars() {
+  for(int i = 0;i<sizeof(receivedChars); i++) {
+    receivedChars[i] = 0;
+  }
 }

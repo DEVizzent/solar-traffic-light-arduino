@@ -11,6 +11,7 @@ public:
 private:
   bool newEvent;
   byte numChars = 32;
-  char * receivedChars[32];
+  char receivedChars[32];
+  void cleanReceivedChars();
 };
 #endif
